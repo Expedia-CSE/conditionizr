@@ -92,6 +92,59 @@ Setting up Conditionizr is really easy, just call the function and set up the it
 </html>
 ```
 
+#### Using multiple ieLessThan:
+```html
+<html>
+	<head>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/conditionizr.js/3.0.0/conditionizr.min.js"></script>
+		<script>window.conditionizr || document.write('<script src="dist/conditionizr.min.js"><\/script>');</script>
+		<script>
+		conditionizr({
+			debug      : false,
+			scriptSrc  : 'js/conditionizr/',
+			styleSrc   : 'css/conditionizr/',
+			ieLessThan : [
+				{
+					active: true,
+					version: '9',
+					scripts: false,
+					styles: false,
+					classes: true,
+					customScript: // Separate polyfills with commas
+						'//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js, 
+						//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js'
+				},
+				{
+					active: true,
+					version: '10',
+					scripts: false,
+					styles: false,
+					classes: true
+				}
+			],
+			chrome     : { scripts: true, styles: true, classes: true, customScript: false },
+			safari     : { scripts: true, styles: true, classes: true, customScript: false },
+			opera      : { scripts: true, styles: true, classes: true, customScript: false },
+			firefox    : { scripts: true, styles: true, classes: true, customScript: false },
+			ie10       : { scripts: true, styles: true, classes: true, customScript: false },
+			ie9        : { scripts: true, styles: true, classes: true, customScript: false },
+			ie8        : { scripts: true, styles: true, classes: true, customScript: false },
+			ie7        : { scripts: true, styles: true, classes: true, customScript: false },
+			ie6        : { scripts: true, styles: true, classes: true, customScript: false },
+			retina     : { scripts: true, styles: true, classes: true, customScript: false },
+			touch      : { scripts: true, styles: true, classes: true, customScript: false },
+			mac        : true,
+			win        : true,
+			x11        : true,
+			linux      : true
+		});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
+```
+
 ## Documentation
 For full Conditionizr documentation and config definitions please visit the [Docs](http://conditionizr.com/docs.html) page on the website. You'll then need to set where your `scriptSrc` and `styleSrc` folders point, and add the relevant conditional files for your project.
 
