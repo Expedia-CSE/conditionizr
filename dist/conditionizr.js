@@ -50,14 +50,28 @@
 
 		function conditionizrMerge( obj1, obj2 ) {
 			for ( var p in obj2 ) {
+				var obj1prop = obj1[p],
+					obj2prop = obj2[p];
+
 				try {
-					if ( obj2[p].constructor === Object ) {
-						obj1[p] = conditionizrMerge( obj1[p], obj2[p] );
+					if ( obj2prop.constructor === Object ) {
+						obj1[p] = conditionizrMerge( obj1prop, obj2prop );
+					} else if ( obj2prop.constructor === Array ) {
+						var propLength = obj2prop.length,
+							newPropArray = [],
+							obj1Copy;
+
+						for ( var i=0; i < propLength; i++ ) {
+							obj1Copy = conditionizrMerge( {}, obj1prop );
+							newPropArray[i] = conditionizrMerge( obj1Copy, obj2prop[i] );
+						}
+
+						obj1[p] = newPropArray;
 					} else {
-						obj1[p] = obj2[p];
+						obj1[p] = obj2prop;
 					}
 				} catch ( e ) {
-					obj1[p] = obj2[p];
+					obj1[p] = obj2prop;
 				}
 			}
 			return obj1;
@@ -126,10 +140,27 @@
 		    return v > 4 ? v : document.documentMode;
 		})();
 		
-		if ( ie < settings.ieLessThan.version + '.0' ) {
-			var theBrowser = 'lt-ie' + settings.ieLessThan.version;
-			var browserSettings = settings.ieLessThan;
-			conditionizrLoader();
+		var ieLessThan = settings.ieLessThan,
+			ieLessThanLength = ieLessThan.length,
+			theBrowser,
+			browserSettings;
+
+		function addLessThanClass(thisIeLessThan){
+			var version = thisIeLessThan.version;
+
+			if ( ie < version + '.0' ) {
+				theBrowser = 'lt-ie' + version;
+				browserSettings = thisIeLessThan;
+				conditionizrLoader();
+			}
+		}
+
+		if ( ieLessThanLength ) {
+			for( var i = 0; i < ieLessThanLength; i++ ){
+				addLessThanClass(ieLessThan[i]);
+			}
+		}else{
+			addLessThanClass(ieLessThan);
 		}
 			
 		for( var i = 6; i < 11; i++ ) {
